@@ -1,7 +1,7 @@
 # escape=`
 
 # Get OpenJDK nanoserver container
-FROM openjdk:8-nanoserver as openjdk
+FROM openjdk:8u201-windowsservercore-1803 as openjdk
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
@@ -19,7 +19,7 @@ RUN Invoke-WebRequest "https://repo.jenkins-ci.org/public/org/jenkins-ci/main/re
 
 
 # Build Git only image
-FROM microsoft/nanoserver:sac2016 as git
+FROM mcr.microsoft.com/windows/nanoserver as git
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
@@ -45,9 +45,9 @@ RUN Invoke-WebRequest "https://github.com/git-for-windows/git/releases/download/
 RUN Expand-Archive $env:GIT_FILENAME .\git;
 
 # Build off nanoserver container
-FROM microsoft/nanoserver:sac2016
+FROM mcr.microsoft.com/windows/nanoserver
 
-LABEL maintainer="Jonathan Kuleff <jonathankuleff+docker@gmail.com>" `
+LABEL maintainer="ashwin shrestha <ashwinshr@gmail.com>" `
       org.label-schema.schema-version="1.0" `
       org.label-schema.name="Jenkins JNLP Windows Slave"
 
